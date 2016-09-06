@@ -2,16 +2,6 @@
 
 	require("connect.php");
 
-    function writefile($value)
-    {
-        
-
-        $file = fopen("login.TXT","w"); //開啟檔案
-
-        fwrite($file,$value);
-
-        fclose($file);
-    }
 
 	$email  = $_POST["email"];
 	$auto  = $_POST["auto"];
@@ -40,6 +30,6 @@
     $value = validateHash($pwd,$hash);
 
     
-            
-    writefile($value);
+     $_SESSION["value"] = $value;       
+    
 ?>

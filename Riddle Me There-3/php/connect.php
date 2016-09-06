@@ -1,4 +1,6 @@
 <?php
+
+session_start();
 $host="localhost";                  //replace with your hostname 
 $username="root";       //replace with your username 
 $password="";               //replace with your password 

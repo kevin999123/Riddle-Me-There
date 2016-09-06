@@ -1,8 +1,8 @@
 <?php
 
-
+session_start();
 /*********************************************************************************************/
-function readfiles()
+/*function readfiles()
 {
 	$str = "";
 	$filename = "test.TXT";
@@ -28,7 +28,7 @@ function readfiles()
 
     }
 	return $str;
-}
+}*/
 
  /* $url = "http://140.131.12.56/Register.php";
   function get_data($url) {
@@ -42,21 +42,24 @@ function readfiles()
 	  return $data;
 	}
 
-	$vlas =get_data($url);*/
-
+	$vlas =get_data($url);
+	echo $vlas;*/
+	
+	$result = $_SESSION['UserName'];
 	function Returnvalue($result)
 		{
 			$jsonreturn =[
-		    "result" => "$result",
+		    "result" => $result,
 		   	];
 
 		   	print json_encode($jsonreturn);
 		}
-	for($i=0 ; $i<2 ;$i++){
+	Returnvalue($result);
+	/*for($i=0 ; $i<2 ;$i++){
 		$result = readfiles();
 		sleep(1);
 	}
 	if($result == "correct" or $result == "error"){
 		Returnvalue($result);
-	}	
+	}*/	
 ?>

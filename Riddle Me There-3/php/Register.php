@@ -3,16 +3,7 @@
 
 require('connect.php'); 
 
-function writefile($value)
-{
-	
 
-	$file = fopen("test.TXT","w"); //開啟檔案
-
-	fwrite($file,$value);
-
-	fclose($file);
-}
 
 
 $emailErr = null;
@@ -73,7 +64,7 @@ $nullErr = null;
 		}
 
 		
-		
+		$_SESSION['UserName']='correct';
 		
 /**************************************************************************/
 
@@ -81,8 +72,15 @@ if(!isset($emailErr)&& !isset($ageErr)&& !isset($pwdErr) && !isset($nullErr))
 {
 			
 			$result = "correct";
-			
-			writefile($result);
+			echo $result;
+			$_SESSION['UserName']=$result;
+			/*$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL,"http://140.131.12.56/Register.php");
+			curl_setopt($ch, CURLOPT_POST, true); // 啟用POST
+			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query( array( "a"=>"123", "b"=>"321") )); 
+			curl_exec($ch); 
+			curl_close($ch);*/
+			//writefile($result);
 	/***********************************************************************************/
 	// magneto加密方式
 	/*		function getRandomString($length = 10)
@@ -158,7 +156,8 @@ if(!isset($emailErr)&& !isset($ageErr)&& !isset($pwdErr) && !isset($nullErr))
 */	
 }else {
 	$result ="error";
-	writefile($result);
+	$_SESSION['UserName']=$result;
+	
 
 	
 }
