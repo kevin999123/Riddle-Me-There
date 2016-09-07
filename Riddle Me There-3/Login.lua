@@ -3,6 +3,11 @@ local widget= require("widget")
 local composer = require( "composer" )
 local scene = composer.newScene()
 local image
+local logintable 
+local decodedData ={}
+local auto = "Yes"
+local email
+local password
 ----------------------------------------------------------------
 local returnPress = function ( self,event ) 
            composer.gotoScene( "Front cover", "fade", 400 )
@@ -19,19 +24,19 @@ local function onSceneTouch1( self, event )
 	        		print ( "RESPONSE: " .. event.response )
 	    		end
 			end
-
+			print(email.text);
 			local headers = {}
 
 			headers["Content-Type"] = "application/x-www-form-urlencoded"
 			headers["Accept-Language"] = "en-US"
 
-			local body = "submit=update".."&id="..email.text.."&pulse="..password.text.."&systolic="..username.text
+			local body = "email="..email.text.."&password="..password.text.."&auto="..auto
 
 			local params = {}
 			params.headers = headers
 			params.body = body
 
-			network.request( "http://localhost", "POST", networkListener, params )
+			network.request( "http://140.131.12.56/login.php", "POST", networkListener, params )
 
 			local function networkListener2( event )
 	    
@@ -40,19 +45,25 @@ local function onSceneTouch1( self, event )
 	        	else
 				 	myNewData = event.response
 		            print ( "From server: " .. myNewData)--印出json
-		            decodedData=json.decode(myNewData)
+		            
 
-		            for i=1,#decodedData do
-		                idtable[i] = decodedData[i]["id"]   
-		            end
-
-		           network.request("http://124.155.169.246/~coranaadmin/latest-secure.php", "GET", networkListener2) --從資料庫取得json
-
+		            
+		            logintable = event.response   
+		           
+					print( logintable.."有")
+		           
+					
 				
+		           	if(logintable)then
+						composer.gotoScene( "Register", "slideLeft", 800  )
+					else
 
+					end
 				end
 			end
 
+			network.request("http://140.131.12.56/loginSuccess.php", "GET", networkListener2) --從資料庫取得json
+			
 		--[[	if()then
 				composer.gotoScene( "Homepage", "slideLeft", 800  )
 			else
@@ -111,14 +122,14 @@ function scene:create( event )
 
 	image8.touch = onSceneTouch1
 -------------------------------------------------------------------
-local email = native.newTextField( display.contentWidth/2.2, 105, 110, 15 )
+	 email = native.newTextField( display.contentWidth/2.2, 105, 110, 15 )
 	  
-	 email:setTextColor(  1, 1, 1  )
+	 email:setTextColor(  0, 0, 0  )
 	 email.hasBackground = false
 
-local password = native.newTextField( display.contentWidth/2.2, 140, 110, 15 )
+	 password = native.newTextField( display.contentWidth/2.2, 140, 110, 15 )
  	
- 	 password:setTextColor(  1, 1, 1  )
+ 	 password:setTextColor(  0, 0, 0  )
 	 password.hasBackground = false
 
 
@@ -129,7 +140,9 @@ local password = native.newTextField( display.contentWidth/2.2, 140, 110, 15 )
 -------------------------------------------------------------------
 local function onSwitchPress( event )
     local switch = event.target
+
     print( "Switch with ID '"..switch.id.."' is on: "..tostring(switch.isOn) )
+    auto = switch.id
 end
 -- Create two associated radio buttons (inserted into the same display group)
 local radioButton1 = widget.newSwitch(

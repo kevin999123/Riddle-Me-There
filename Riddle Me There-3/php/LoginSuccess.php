@@ -2,13 +2,13 @@
 //LoginSuccess.php
 session_start();
 /*********************************************************************************************/
-
+	
  	$result = $_SESSION["value"];
 
 	function Returnvalue($result)
 		{
 			$jsonreturn =[
-		    "result" => "$_SESSION['value']",
+		    "result" => $result,
 		   	];
 
 		   	print json_encode($jsonreturn);

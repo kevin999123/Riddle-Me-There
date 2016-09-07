@@ -5,7 +5,7 @@ local scene = composer.newScene()
 local image
 local Gender = "male"
 local json = require ( "json" )
-
+local network2
 ----------------------------------------------------------------------------------------------------
 local returnPress = function ( self,event ) 
            composer.gotoScene( "Front cover", "fade", 400 )
@@ -98,6 +98,8 @@ local function onSceneTouch1( self, event )
 
 			network.request( "http://140.131.12.56/Register.php", "POST", networkListener, params )
 
+		elseif ( event.phase == "ended" ) then
+
 			local function networkListener2( event )
 	    
 	        	if ( event.isError ) then
@@ -113,7 +115,7 @@ local function onSceneTouch1( self, event )
 		            end
 		            
 		            
-		               idtable = decodedData["result"]
+		            idtable = decodedData["result"]
 		                
 		            print(idtable)
 		            
@@ -124,7 +126,11 @@ local function onSceneTouch1( self, event )
 					end
 				end
 			end
-		    network.request("http://140.131.12.56/RegisterSuccess.php", "GET", networkListener2) --從資料庫取得json
+		    network2 = network.request("http://140.131.12.56/RegisterSuccess.php", "GET", networkListener2) --從資料庫取得json
+			--[[for i=1,2 do
+				network.request("http://140.131.12.56/RegisterSuccess.php", "GET", networkListener2)
+				memTimer = timer.performWithDelay( 500, networkListener2, 1 )
+			end]]
 		end
 	end
 ------------------------------------------------------------------------------------------
